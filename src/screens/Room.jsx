@@ -9,6 +9,7 @@ const RoomPage = () => {
   const [myStream, setMyStream] = useState();
   const [remoteStream, setRemoteStream] = useState();
   const [muted, setMuted] = useState(false);
+  const [remoteMute, setRemoteMute] = useState(false);
 
   const toggleMute = () => {
     setMuted(!muted);
@@ -127,7 +128,7 @@ const RoomPage = () => {
         <div className="video">
           <ReactPlayer
             playing
-            muted
+            muted={muted}
             height="100%"
             width="100%"
             url={myStream}
@@ -141,11 +142,12 @@ const RoomPage = () => {
         <div className="video">
           <ReactPlayer
             playing
-            
+            muted={remoteMute}
             height="100%"
             width="100%"
             url={remoteStream}
           />
+          <button onClick={() => setRemoteMute(!remoteMute)}>{remoteMute ? 'unmute' : 'mute'}</button>
         </div>
       )}
       </div>
