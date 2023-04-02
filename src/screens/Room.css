@@ -10,6 +10,8 @@
   }
 
 .video{
-    flex: 1;
+    
     background-color: pink;
+    width: 500px;
+    height: 500px;
 }
