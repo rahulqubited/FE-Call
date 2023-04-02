@@ -2,12 +2,19 @@ import React, { useEffect, useCallback, useState } from "react";
 import ReactPlayer from "react-player";
 import peer from "../service/peer";
 import { useSocket } from "../context/SocketProvider";
-
+import './Room.css'
 const RoomPage = () => {
   const socket = useSocket();
   const [remoteSocketId, setRemoteSocketId] = useState(null);
   const [myStream, setMyStream] = useState();
   const [remoteStream, setRemoteStream] = useState();
+  const [muted, setMuted] = useState(false);
+
+  const toggleMute = () => {
+    setMuted(!muted);
+  }
+
+  
 
   const handleUserJoined = useCallback(({ email, id }) => {
     console.log(`Email ${email} joined room`);
@@ -115,30 +122,33 @@ const RoomPage = () => {
       <h4>{remoteSocketId ? "Connected" : "No one in room"}</h4>
       {myStream && <button onClick={sendStreams}>Send Stream</button>}
       {remoteSocketId && <button onClick={handleCallUser}>CALL</button>}
+      <div className="video-container">
       {myStream && (
-        <>
-          <h1>My Stream</h1>
+        <div className="video">
           <ReactPlayer
             playing
             muted
-            height="100px"
-            width="200px"
+            height="100%"
+            width="100%"
             url={myStream}
           />
-        </>
+          <button onClick={() => {
+            toggleMute();
+            }}>{muted ? 'unmute' : 'mute'}</button>
+        </div>
       )}
       {remoteStream && (
-        <>
-          <h1>Remote Stream</h1>
+        <div className="video">
           <ReactPlayer
             playing
-            muted
-            height="100px"
-            width="200px"
+            
+            height="100%"
+            width="100%"
             url={remoteStream}
           />
-        </>
+        </div>
       )}
+      </div>
     </div>
   );
 };
